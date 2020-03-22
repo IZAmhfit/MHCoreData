@@ -9,56 +9,56 @@ import Foundation
 import CoreData
 
 ///
-func mhAdd<T>(sorterUp: String, to: NSFetchRequest<T>) -> NSFetchRequest<T>
-{
-    //
-    to.sortDescriptors = [NSSortDescriptor(key: sorterUp, ascending: true)]
-    
-    //
-    return to
-}
-
-///
-func mhAdd<T>(predicate: NSPredicate, to: NSFetchRequest<T>) -> NSFetchRequest<T>
-{
-    //
-    to.predicate = predicate
-    
-    //
-    return to
-}
-
-///
 /// Inspirace: https://github.com/stklieme/Fetchable/blob/master/Fetchable.swift
-///
-public protocol MHFetchable {
+/// V kodu je pak treba pro kazdou tridu "TR" CD entity dopsat:
+/// extension TR : MHFetchable {}
+public protocol MHFetchable where Self: NSManagedObject{
     ///
-    /// associatedtype CDEntity: NSManagedObject = Self
+    ///associatedtype CDEntity: NSManagedObject = Self
+    // typova zkratka...
+    typealias FReq = NSFetchRequest<Self>
+    typealias FRCType = NSFetchedResultsController<Self>
     
     //
-    // static var mhBasicFetch: NSFetchRequest<CDEntity> { get }
+    static var frcBasicKey: String { get }
 }
 
 ///
 public extension MHFetchable where Self: NSManagedObject {
-    //
-    typealias FETCHR = NSFetchRequest<Self>
     
-    //
+    // ...
     static var entityName : String {
         //
         return String(describing:self)
     }
     
-    //
-    static var basicFetch: FETCHR {
+    // ...
+    static var basicFetch: FReq {
         //
         NSFetchRequest<Self>(entityName: entityName)
     }
     
     //
+    static var basicFRCFetch: FReq {
+        //
+        fetchRequest(keySortedUp: frcBasicKey)
+    }
+    
+    //
+    static func fetchRequest(keySortedUp: String) -> FReq {
+        //
+        let _fr = basicFetch
+        
+        //
+        _fr.sortDescriptors = [NSSortDescriptor(key: keySortedUp, ascending: true)]
+        
+        //
+        return _fr
+    }
+    
+    //
     static func fetchRequest(predicate: NSPredicate? = nil,
-                             sorter: NSSortDescriptor?) -> FETCHR
+                             sorter: NSSortDescriptor?) -> FReq
     {
         //
         let _fr = basicFetch
@@ -75,5 +75,19 @@ public extension MHFetchable where Self: NSManagedObject {
         //
         return _fr
     }
+    
+    ///
+    static func FRC(_ fetchReq: FReq, moc: NSManagedObjectContext) -> FRCType
+    {
+        //
+        NSFetchedResultsController(fetchRequest: fetchReq,
+                                   managedObjectContext: moc,
+                                   sectionNameKeyPath: nil, cacheName: nil)
+    }
+}
+
+///
+public extension NSFetchRequest where ResultType:NSFetchRequestResult  {
+    
 }
 

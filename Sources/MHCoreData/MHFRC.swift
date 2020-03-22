@@ -10,17 +10,6 @@ import CoreData
 import UIKit
 
 ///
-///
-public func mhFRC<T>(_ fr: NSFetchRequest<T>,
-                     moc: NSManagedObjectContext) -> NSFetchedResultsController<T>
-{
-    //
-    NSFetchedResultsController(fetchRequest: fr,
-                               managedObjectContext: moc,
-                               sectionNameKeyPath: nil, cacheName: nil)
-}
-
-///
 public func mhFire<T>(frc: NSFetchedResultsController<T>) -> Bool {
     //
     do {
@@ -36,24 +25,25 @@ public func mhFire<T>(frc: NSFetchedResultsController<T>) -> Bool {
 
 ///
 /// Wrapper nad FRC, poskytuje muj delegate
-public class MHFRC<Res:NSFetchRequestResult>
-{
+public class MHFRC<Entity:MHFetchable> {
     ///
-    private let FRC: NSFetchedResultsController<Res>
+    private let FRC: Entity.FRCType
     
     ///
     public var count: Int { FRC.fetchedObjects?.count ?? 0 }
     
     ///
-    public func object(at: IndexPath) -> Res {
+    public func object(at: IndexPath) -> Entity {
         //
         FRC.object(at: at)
     }
     
     ///
-    public init(_ req: NSFetchRequest<Res>, moc: NSManagedObjectContext) {
+    public init(moc: NSManagedObjectContext,
+                _ req: Entity.FReq = Entity.basicFRCFetch)
+    {
         //
-        FRC = mhFRC(req, moc: moc)
+        FRC = Entity.FRC(req, moc: moc)
     }
     
     ///
@@ -97,19 +87,16 @@ public struct MHTableDEF<Type> {
 
 ///
 /// Tabulkovy DS
-public class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate where Res:NSFetchRequestResult
+public class MHFRCDataSource<Entity> : NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate where Entity:MHFetchable
 {
-    //
-    public typealias CDEntity = Res
+    ///
+    let FRC: MHFRC<Entity>
     
     ///
-    let FRC: MHFRC<CDEntity>
+    let def: MHTableDEF<Entity>
     
     ///
-    let def: MHTableDEF<CDEntity>
-    
-    ///
-    public init?(_ mhFRC: MHFRC<CDEntity>, def: MHTableDEF<CDEntity>) {
+    public init?(_ mhFRC: MHFRC<Entity>, def: MHTableDEF<Entity>) {
         //
         self.FRC = mhFRC
         self.def = def
