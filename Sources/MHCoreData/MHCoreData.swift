@@ -2,9 +2,9 @@ import Foundation
 import CoreData
 
 //
-extension NSManagedObject {
+public extension NSManagedObject {
     //
-    public func sayHello() -> String {
+    func sayHello() -> String {
         //
         guard let en = entity.name else { return "Unknown" }
         
