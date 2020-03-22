@@ -33,7 +33,7 @@ func mhAdd<T>(predicate: NSPredicate, to: NSFetchRequest<T>) -> NSFetchRequest<T
 ///
 protocol MHFetchable {
     ///
-    associatedtype CDEntity: NSManagedObject = Self
+    /// associatedtype CDEntity: NSManagedObject = Self
     
     //
     // static var mhBasicFetch: NSFetchRequest<CDEntity> { get }
@@ -42,20 +42,23 @@ protocol MHFetchable {
 ///
 extension MHFetchable where Self: NSManagedObject {
     //
+    typealias FETCHR = NSFetchRequest<Self>
+    
+    //
     static var entityName : String {
         //
         return String(describing:self)
     }
     
     //
-    static var basicFetch: NSFetchRequest<CDEntity> {
+    static var basicFetch: FETCHR {
         //
-        NSFetchRequest<CDEntity>(entityName: entityName)
+        NSFetchRequest<Self>(entityName: entityName)
     }
     
     //
     static func fetchRequest(predicate: NSPredicate? = nil,
-                             sorter: NSSortDescriptor?) -> NSFetchRequest<CDEntity>
+                             sorter: NSSortDescriptor?) -> FETCHR
     {
         //
         let _fr = basicFetch
