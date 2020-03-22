@@ -15,11 +15,11 @@ import CoreData
 public protocol MHFetchable where Self: NSManagedObject{
     ///
     associatedtype Entity: NSManagedObject = Self
-    associatedtype AttributeName: RawRepresentable where AttributeName.RawValue == String
     
     // typova zkratka...
     typealias FReq = NSFetchRequest<Self>
     typealias FRCType = NSFetchedResultsController<Self>
+    typealias AttributeName = String
     
     //
     static var frcBasicKey: AttributeName { get }
@@ -53,8 +53,7 @@ public extension MHFetchable where Self: NSManagedObject
         let _fr = basicFetch
         
         //
-        _fr.sortDescriptors = [NSSortDescriptor(key: keySortedUp.rawValue,
-                                                ascending: true)]
+        _fr.sortDescriptors = [NSSortDescriptor(key: keySortedUp, ascending: true)]
         
         //
         return _fr
