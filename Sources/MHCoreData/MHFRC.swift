@@ -27,15 +27,22 @@ public func mhFire<T>(frc: NSFetchedResultsController<T>) -> Bool {
 /// Wrapper nad FRC, poskytuje muj delegate
 public class MHFRC<Entity:MHFetchable> {
     ///
-    private let FRC: Entity.FRCType
+    private let __FRC: Entity.FRCType
     
     ///
-    public var count: Int { FRC.fetchedObjects?.count ?? 0 }
+    public var count: Int { __FRC.fetchedObjects?.count ?? 0 }
+    
+    ///
+    public var delegate: NSFetchedResultsControllerDelegate? {
+        //
+        get { __FRC.delegate }
+        set { __FRC.delegate = newValue }
+    }
     
     ///
     public func object(at: IndexPath) -> Entity {
         //
-        FRC.object(at: at)
+        __FRC.object(at: at)
     }
     
     ///
@@ -43,17 +50,11 @@ public class MHFRC<Entity:MHFetchable> {
                 _ req: Entity.FReq = Entity.basicFRCFetch)
     {
         //
-        FRC = Entity.FRC(req, moc: moc)
+        __FRC = Entity.FRC(req, moc: moc)
     }
     
     ///
-    func fire() -> Bool { mhFire(frc: FRC) }
-    
-    ///
-    func set(delegate: NSFetchedResultsControllerDelegate) {
-        ///
-        FRC.delegate = delegate
-    }
+    func fire() -> Bool { mhFire(frc: __FRC) }
 }
 
 
@@ -107,7 +108,7 @@ public class MHFRCDataSource<Entity> : NSObject, UITableViewDataSource, NSFetche
         //
         if def.tableIsDynamic {
             //
-            FRC.set(delegate: self)
+            FRC.delegate = self
         }
         
         //
