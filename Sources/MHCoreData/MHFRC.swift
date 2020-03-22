@@ -97,7 +97,7 @@ public struct MHTableDEF<Type> {
 
 ///
 /// Tabulkovy DS
-class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate where Res:NSFetchRequestResult
+public class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate where Res:NSFetchRequestResult
 {
     //
     typealias CDEntity = Res
@@ -109,7 +109,7 @@ class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedResultsCo
     let def: MHTableDEF<CDEntity>
     
     ///
-    init?(_ mhFRC: MHFRC<CDEntity>, def: MHTableDEF<CDEntity>) {
+    public init?(_ mhFRC: MHFRC<CDEntity>, def: MHTableDEF<CDEntity>) {
         //
         self.FRC = mhFRC
         self.def = def
