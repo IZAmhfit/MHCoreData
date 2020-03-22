@@ -100,7 +100,7 @@ public struct MHTableDEF<Type> {
 public class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedResultsControllerDelegate where Res:NSFetchRequestResult
 {
     //
-    typealias CDEntity = Res
+    public typealias CDEntity = Res
     
     ///
     let FRC: MHFRC<CDEntity>
@@ -131,22 +131,22 @@ public class MHFRCDataSource<Res> : NSObject, UITableViewDataSource, NSFetchedRe
     }
     
     ///
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         ///
         return 1
     }
     
     ///
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int) -> Int
+    public func tableView(_ tableView: UITableView,
+                          numberOfRowsInSection section: Int) -> Int
     {
         ///
         return FRC.count
     }
     
     ///
-    func tableView(_ tableView: UITableView,
-                   cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    public func tableView(_ tableView: UITableView,
+                          cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         ///
         guard let _cell = tableView.dequeueReusableCell(withIdentifier: def.reuseId)
