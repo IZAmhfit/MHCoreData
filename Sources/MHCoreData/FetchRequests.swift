@@ -31,7 +31,7 @@ func mhAdd<T>(predicate: NSPredicate, to: NSFetchRequest<T>) -> NSFetchRequest<T
 ///
 /// Inspirace: https://github.com/stklieme/Fetchable/blob/master/Fetchable.swift
 ///
-protocol MHFetchable {
+public protocol MHFetchable {
     ///
     /// associatedtype CDEntity: NSManagedObject = Self
     
@@ -40,7 +40,7 @@ protocol MHFetchable {
 }
 
 ///
-extension MHFetchable where Self: NSManagedObject {
+public extension MHFetchable where Self: NSManagedObject {
     //
     typealias FETCHR = NSFetchRequest<Self>
     
