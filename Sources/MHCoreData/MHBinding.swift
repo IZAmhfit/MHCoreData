@@ -15,68 +15,134 @@ public func MTE() {
     assert(Thread.isMainThread, "Main Thread Expected")
 }
 
-// --------------------------------------------------------------------
-// Publikovana hodnota je objekt drzici reference (strong) na observery
-// Observer je povinnen se pri deint odhlasit (koncept NotifCenter)
+
 // --------------------------------------------------------------------
 //
-@propertyWrapper public class MHPublished<Value> {
+public extension NSNotification {
     //
-    public typealias Binding = MHBinding<Value>
+    static let pcBindings = NSNotification.Name("MHCoreData.pcBindings")
+}
+
+// --------------------------------------------------------------------
+// Vztah na Wrapper a delegate na uzivatele napojeni
+public class MHBinding<Value> {
+    // univerzalni wrapper hodnoty
+    let wrapper: MHWrapper<Value>
+    // uzivatel hodnoty
+    var delegate: ((Value)->())?
     
-    // ----------------------------------------------------------------
-    // ocekavam MainThread
-    public var wrappedValue: Value {
+    // zapis do wrapperu
+    public var value: Value {
+        //
+        get { wrapper.value }
+        set { wrapper.value = newValue }
+    }
+    
+    // zprava od wrapperu
+    func valueUpdated() {
+        // preposilam do uzivatele
+        delegate?(wrapper.value)
+    }
+    
+    //
+    public init(_ on: MHWrapper<Value>) {
+        //
+        self.wrapper = on
+        
+        //
+        wrapper.add(observer: self)
+    }
+    
+    deinit {
+        //
+        wrapper.remove(observer: self)
+    }
+}
+
+// --------------------------------------------------------------------
+// spojovnik mezi propertyWrapper a Binding
+public class MHWrapper<Value> {
+    // seznam binding
+    var observers = [MHBinding<Value>]()
+    
+    // nekdo sem zapise, sirim na binding
+    public var value: Value {
         //
         didSet {
             //
-            MTE()
-            
-            // posilam zpravu observerum, ti ji predaji svym delegatum
-            observers.forEach { $0.valueUpdate(wrappedValue) }
+            observers.forEach { $0.valueUpdated() }
         }
     }
     
-    // ----------------------------------------------------------------
     //
-    public var rowLabel: String
-    
-    // ----------------------------------------------------------------
-    // vytvor bind wrapper nad published...self
-    public var projectedValue: Binding { MTE(); return MHBinding(self) }
-    
-    // ----------------------------------------------------------------
-    // pole strong referenci. Tady dochazi zamerne referencni vazbe
-    private var observers = [Binding]()
-    
-    // ----------------------------------------------------------------
-    // ocekavam MainThread
-    public func addObserver(_ o: Binding) { MTE(); observers.append(o) }
-    
-    // ----------------------------------------------------------------
-    // ocekavam MainThread
-    public func remObserver(_ o: Binding) {
+    func add(observer: MHBinding<Value>) {
         //
-        MTE()
-        
-        //
-        observers = observers.filter { ($0 === o) == false }
+        observers.append(observer)
     }
     
-    // ----------------------------------------------------------------
+    //
+    func remove(observer: MHBinding<Value>) {
+        //
+        observers = observers.filter { ($0 === observer) == false }
+    }
+    
+    //
+    public init(i:Value) {
+        //
+        self.value = i
+    }
+}
+
+//
+@propertyWrapper public class MHPublished<Value> {
+    //
+    let wrapper: MHWrapper<Value>
+    
+    public let rowLabel = "Ahoj"
+    
+    //
+    public var wrappedValue: Value {
+        //
+        get { wrapper.value }
+        set { wrapper.value = newValue; }
+    }
+    
+    //
+    public var projectedValue: MHBinding<Value> { MHBinding(wrapper) }
+    
     //
     public init(wrappedValue: Value) {
         //
-        self.wrappedValue = wrappedValue
-        self.rowLabel = ""
+        self.wrapper = MHWrapper(i: wrappedValue)
+    }
+}
+
+@propertyWrapper public class MHPublishedKey<Root, Value> {
+    //
+    let model: Root
+    let key: ReferenceWritableKeyPath<Root, Value>
+    
+    //
+    let wrapper: MHWrapper<Value>
+    
+    //
+    public let rowLabel = "Ahoj"
+    
+    //
+    public var wrappedValue: Value {
+        //
+        get { model[keyPath:key] }
+        set { model[keyPath:key] = newValue; wrapper.value = newValue }
     }
     
-    // ----------------------------------------------------------------
     //
-    public init(label: String, defaultValue: Value) {
+    public var projectedValue: MHBinding<Value> { MHBinding(wrapper) }
+    
+    //
+    public init(model: Root, key: ReferenceWritableKeyPath<Root, Value>) {
         //
-        self.rowLabel = label
-        self.wrappedValue = defaultValue
+        self.model = model; self.key = key
+        self.wrapper = MHWrapper(i: model[keyPath:key])
     }
 }
 
@@ -104,44 +170,5 @@ public extension MHPublished where Value == String {
     var asERow: MHRow<MHTextField> {
         //
         MHRow(rowLabel, right: MHTextField(bind: projectedValue))
-    }
-}
-
-// --------------------------------------------------------------------
-// MTE
-public class MHBinding<Value> {
-    //
-    private let him: MHPublished<Value>
-    public  var delegate: ((Value)->())?
-    
-    // wrap nad hodnotou
-    public  var value: Value {
-        //
-        get { MTE(); return him.wrappedValue }
-        set { MTE(); him.wrappedValue = newValue }
-    }
-    
-    // zprava od Published strany, preposilam delegatovi
-    func valueUpdate(_ v: Value) {
-        //
-        MTE()
-        
-        //
-        delegate?(v)
-    }
-    
-    //
-    public init(_ with: MHPublished<Value>) {
-        //
-        him = with;
-        
-        //
-        with.addObserver(self)
-    }
-    
-    //
-    deinit {
-        //
-        him.remObserver(self)
     }
 }
