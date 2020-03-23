@@ -11,16 +11,15 @@ import UIKit
 ///
 /// Kdokoli, kdo odpovi na "cell", je pouzitelny.
 ///
-public protocol MHTableCell {
+public class MHTableCell : UITableViewCell {
     //
-    var cell: UITableViewCell { get }
 }
 
 
 ///
 ///
 ///
-public class MHRow<RightSide:UIView>: UITableViewCell, MHTableCell {
+public class MHRow<RightSide:UIView>: MHTableCell {
     //
     public var cell: UITableViewCell { self }
     

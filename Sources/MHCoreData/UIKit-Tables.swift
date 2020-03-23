@@ -203,7 +203,7 @@ public class MHTable: MHAbstractTable {
                                    cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         //
-        return object(at: indexPath).cell
+        return object(at: indexPath)
     }
     
     //
