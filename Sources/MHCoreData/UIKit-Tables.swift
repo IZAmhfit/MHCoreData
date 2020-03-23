@@ -220,7 +220,7 @@ public class MHTable: MHAbstractTable {
 }
 
 ///
-extension MHTable {
+public extension MHTable {
     //
     static func rdetail<Root>(on: Root, keys: [KeyPath<Root, String>]) -> MHTable
     {

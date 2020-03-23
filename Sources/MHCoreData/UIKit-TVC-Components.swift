@@ -11,12 +11,12 @@ import UIKit
 ///
 ///
 ///
-class MHLabel: UILabel {
+public class MHLabel: UILabel {
     //
     private var _modelBinding: MHBinding<String>?
     
     //
-    init(text: String) {
+    public init(text: String) {
         //
         super.init(frame: CGRect())
         
@@ -25,7 +25,7 @@ class MHLabel: UILabel {
     }
     
     //
-    init(bind: MHBinding<String>) {
+    public init(bind: MHBinding<String>) {
         //
         self._modelBinding = bind
         
@@ -50,7 +50,7 @@ class MHLabel: UILabel {
 ///
 ///
 ///
-class MHTextField: UITextField {
+public class MHTextField: UITextField {
     //
     private var _modelBinding: MHBinding<String>?
     
@@ -61,7 +61,7 @@ class MHTextField: UITextField {
     }
     
     //
-    init(bind: MHBinding<String>) {
+    public init(bind: MHBinding<String>) {
         //
         self._modelBinding = bind
         
@@ -88,7 +88,7 @@ class MHTextField: UITextField {
 /// --------------------------------------------------------------------
 ///
 ///
-class MHSwitch: UISwitch {
+public class MHSwitch: UISwitch {
     //
     private var _modelBinding: MHBinding<Bool>?
     
@@ -99,7 +99,7 @@ class MHSwitch: UISwitch {
     }
     
     //
-    init(bind: MHBinding<Bool>) {
+    public init(bind: MHBinding<Bool>) {
         //
         self._modelBinding = bind
         

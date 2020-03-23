@@ -20,9 +20,9 @@ public protocol MHTableCell {
 ///
 ///
 ///
-class MHRow<RightSide:UIView>: UITableViewCell, MHTableCell {
+public class MHRow<RightSide:UIView>: UITableViewCell, MHTableCell {
     //
-    var cell: UITableViewCell { self }
+    public var cell: UITableViewCell { self }
     
     //
     static func Text(_ ltext: String, _ rtext: String? = nil) -> MHTableCell {
@@ -45,7 +45,7 @@ class MHRow<RightSide:UIView>: UITableViewCell, MHTableCell {
     var rightSide: RightSide?
     
     //
-    init(_ leftText: String, right: RightSide?) {
+    public init(_ leftText: String, right: RightSide?) {
         //
         super.init(style: .default, reuseIdentifier: nil)
         
