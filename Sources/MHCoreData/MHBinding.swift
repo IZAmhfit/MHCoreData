@@ -65,10 +65,18 @@ public func MTE() {
     
     // ----------------------------------------------------------------
     //
-    public init(wrappedValue: Value, label: String) {
+    public init(wrappedValue: Value) {
         //
         self.wrappedValue = wrappedValue
+        self.rowLabel = ""
+    }
+    
+    // ----------------------------------------------------------------
+    //
+    public init(label: String, defaultValue: Value) {
+        //
         self.rowLabel = label
+        self.wrappedValue = defaultValue
     }
 }
 
