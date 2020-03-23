@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 //
-extension UIView {
+public extension UIView {
     //
     @available(iOS 9.0, *)
     func baseStack(_ pin: CGFloat = 20) -> UIStackView {
@@ -40,7 +40,7 @@ extension UIView {
 
 //
 @available(iOS 9.0, *)
-extension UIStackView {
+public extension UIStackView {
     //
     func addSpacing(_ sp: CGFloat = 5) {
         //
