@@ -6,13 +6,21 @@ import PackageDescription
 let package = Package(
     //
     name: "MHCoreData",
+    
+    //
+    platforms: [
+        .iOS(.v13)
+    ],
+    
     //
     products: [
         .library(name: "MHCoreData", targets: ["MHCoreData"]),
     ],
+    
     dependencies: [
         //
     ],
+    
     targets: [
         //
         .target(name: "MHCoreData", dependencies: []),

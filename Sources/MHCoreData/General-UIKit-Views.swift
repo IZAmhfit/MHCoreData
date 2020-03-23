@@ -11,7 +11,6 @@ import UIKit
 //
 public extension UIView {
     //
-    @available(iOS 9.0, *)
     func baseStack(_ pin: CGFloat = 20) -> UIStackView {
         //
         let hstack = UIStackView()
@@ -39,7 +38,6 @@ public extension UIView {
 }
 
 //
-@available(iOS 9.0, *)
 public extension UIStackView {
     //
     func addSpacing(_ sp: CGFloat = 5) {
