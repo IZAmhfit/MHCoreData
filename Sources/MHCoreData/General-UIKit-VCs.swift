@@ -23,7 +23,7 @@ public extension UIViewController {
 ///
 ///
 ///
-extension UINavigationController {
+public extension UINavigationController {
     //
     func add(tabBarItem title: String, tag: Int, image: UIImage? = nil)
     {
