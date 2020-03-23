@@ -39,7 +39,7 @@ public func MTE() {
     
     // ----------------------------------------------------------------
     //
-    public let rowLabel: String
+    // public let rowLabel: String
     
     // ----------------------------------------------------------------
     // vytvor bind wrapper nad published...self
@@ -65,10 +65,10 @@ public func MTE() {
     
     // ----------------------------------------------------------------
     //
-    public init(wrappedValue: Value, label: String = "") {
+    public init(wrappedValue: Value/*, label: String = ""*/) {
         //
         self.wrappedValue = wrappedValue
-        self.rowLabel = label
+        //self.rowLabel = label
     }
 }
 
