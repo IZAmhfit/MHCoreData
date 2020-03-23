@@ -98,7 +98,7 @@ public class MHWrapper<Value> {
     //
     let wrapper: MHWrapper<Value>
     
-    public let rowLabel = "Ahoj"
+    public var rowLabel = ""
     
     //
     public var wrappedValue: Value {
@@ -114,6 +114,13 @@ public class MHWrapper<Value> {
     public init(wrappedValue: Value) {
         //
         self.wrapper = MHWrapper(i: wrappedValue)
+    }
+    
+    //
+    public init(label: String, defaultValue: Value) {
+        //
+        self.wrapper = MHWrapper(i: defaultValue)
+        self.rowLabel = label
     }
 }
 
