@@ -25,7 +25,7 @@ public class MHRow<RightSide:UIView>: UITableViewCell, MHTableCell {
     public var cell: UITableViewCell { self }
     
     //
-    static func Text(_ ltext: String, _ rtext: String? = nil) -> MHTableCell {
+    static public func Text(_ ltext: String, _ rtext: String? = nil) -> MHTableCell {
         //
         if let _rtext = rtext {
             //
