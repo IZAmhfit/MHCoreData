@@ -38,6 +38,10 @@ public func MTE() {
     }
     
     // ----------------------------------------------------------------
+    //
+    public let rowLabel: String
+    
+    // ----------------------------------------------------------------
     // vytvor bind wrapper nad published...self
     public var projectedValue: Binding { MTE(); return MHBinding(self) }
     
@@ -61,12 +65,22 @@ public func MTE() {
     
     // ----------------------------------------------------------------
     //
-    public init(wrappedValue: Value) {
+    public init(wrappedValue: Value, label: String = "") {
         //
         self.wrappedValue = wrappedValue
+        self.rowLabel = label
     }
 }
 
+// --------------------------------------------------------------------
+//
+public extension MHPublished where Value == Bool {
+    //
+    var asRow: MHRow<MHSwitch> {
+        //
+        MHRow(rowLabel, right: MHSwitch(bind: projectedValue))
+    }
+}
 
 // --------------------------------------------------------------------
 // MTE
