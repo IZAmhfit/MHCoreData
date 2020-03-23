@@ -72,15 +72,16 @@ public func MTE() {
     }
 }
 
+
 // --------------------------------------------------------------------
-//
+/*
 public extension MHPublished where Value == Bool {
     //
     var asRow: MHRow<MHSwitch> {
         //
         MHRow(rowLabel, right: MHSwitch(bind: projectedValue))
     }
-}
+}*/
 
 // --------------------------------------------------------------------
 // MTE
