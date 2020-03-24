@@ -8,90 +8,6 @@
 import Foundation
 import UIKit
 
-///
-///
-///
-public typealias MHTableCells = [MHTableCell]
-public typealias MHAction = (UIViewController)->()
-public typealias MHOnCellAction = (UIViewController, IndexPath)->()
-public typealias MHOnObjectCellAction = (UIViewController, IndexPath, MHTableCell)->()
-
-
-/// Konfigurace tabulky
-///
-public struct MHTableConfig {
-    // groupped/plain
-    public var style: UITableView.Style = .plain
-    
-    // akce na ruzne situace
-    public var addButton: MHAction? = nil
-    public var selectionIndexPath: MHOnCellAction? = nil
-    public var selectionObjectIndexPath: MHOnObjectCellAction? = nil
-    
-    //
-    public init() {
-        //
-        addButton = nil
-        selectionIndexPath = nil
-        selectionObjectIndexPath = nil
-    }
-}
-
-
-///
-///
-///
-open class MHAbstractTable : UITableViewController {
-    ///
-    let config: MHTableConfig
-    
-    //
-    init(cfg: MHTableConfig) {
-        //
-        config = cfg; super.init(style: cfg.style)
-    }
-    
-    //
-    required public init?(coder: NSCoder) {
-        //
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //
-    @objc private func __addButtonAction() {
-        //
-        config.addButton?(self)
-    }
-    
-    //
-    override public func viewDidLoad() {
-        //
-        super.viewDidLoad()
-        
-        //
-        if let _ = config.addButton {
-            //
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(__addButtonAction))
-        }
-    }
-    
-    //
-    func event(indexPathSelected: IndexPath) {
-        //
-        if let _act = config.selectionIndexPath {
-            //
-            _act(self, indexPathSelected)
-        }
-    }
-    
-    //
-    override public func tableView(_ tableView: UITableView,
-                                   didSelectRowAt indexPath: IndexPath)
-    {
-        //
-        event(indexPathSelected: indexPath)
-    }
-}
 
 //
 enum MHTableDynamics {
@@ -239,7 +155,7 @@ open class MHTable: MHAbstractTable {
     }
     
     //
-    override func event(indexPathSelected: IndexPath) {
+    override open func event(indexPathSelected: IndexPath) {
         //
         if let _act = config.selectionObjectIndexPath {
             //
