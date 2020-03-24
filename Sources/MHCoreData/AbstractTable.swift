@@ -21,8 +21,8 @@ public typealias MHOnObjectCellAction = (UIViewController, IndexPath, MHTableCel
 public enum MHTablePurpose {
     //
     case listOfElements
+    case selectionFromElements
     case detailOnObject
-    case transaction
 }
 
 // --------------------------------------------------------------------
@@ -49,6 +49,27 @@ public struct MHTableConfig {
         addButton = nil
         selectionIndexPath = nil
         selectionObjectIndexPath = nil
+    }
+    
+    //
+    public init(forPurpose: MHTablePurpose) {
+        //
+        self.purpose = forPurpose
+        
+        //
+        switch forPurpose {
+        case .listOfElements:
+            //
+            buttonAdd = true
+            
+        case .detailOnObject:
+            //
+            buttonAdd = false
+            
+        case .selectionFromElements:
+            //
+            buttonAdd = false
+        }
     }
 }
 
