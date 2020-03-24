@@ -13,7 +13,7 @@ import UIKit
 ///
 open class MHTableCell : UITableViewCell {
     //
-    public func selfConfig(with: Any) {
+    open func selfConfig(with: Any) {
         //
     }
 }

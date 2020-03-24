@@ -17,7 +17,7 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
     
     ///
     public init?(_ mhFRC: MHFRC<Entity>, cellPrototype: String,
-                 header: String?)
+                 header: String? = nil)
     {
         //
         FRC = mhFRC
