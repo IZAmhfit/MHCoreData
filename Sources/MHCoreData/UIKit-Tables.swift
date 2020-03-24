@@ -101,51 +101,12 @@ open class MHAbstractTable : UITableViewController {
     }
 }
 
-///
-/// DataSource pro jednu sekci.
-/// Muze byt bud:
-/// 1) static, pak bereme z pole
-/// 2) FRC, dynamic
-///
-public class MHSectionDriver {
+//
+enum MHTableDynamics {
     //
-    public enum DType {
-        //
-        case staticCells
-        case frc
-    }
-    
-    //
-    static func on<T:CustomStringConvertible>(_ inputs: [T], header: String? = nil) -> MHSectionDriver
-    {
-        //
-        MHSectionDriver(staticCells: inputs.map { MHRow.Text($0.description) },
-                        header: header)
-    }
-    
-    //
-    public init(staticCells cells: [MHTableCell], header: String? = nil) {
-        //
-        self.header = header
-        self.contents = cells
-    }
-    
-    //
-    let header: String?
-    private let contents: [MHTableCell]
-    let style: DType = .staticCells
-    
-    //
-    var count: Int {
-        //
-        return contents.count
-    }
-    
-    //
-    func cellAt(row: Int) -> MHTableCell {
-        //
-        return contents[row]
-    }
+    case beginUpdates, endUpdates
+    case insert(Int), delete(Int), update(Int)
+    case move(Int, Int)
 }
 
 ///
@@ -156,12 +117,20 @@ open class MHTable: MHAbstractTable {
     let sections: [MHSectionDriver]
     
     ///
-    public init(sections: [MHSectionDriver], cfg: MHTableConfig = MHTableConfig()) {
+    public init(sections: [MHSectionDriver],
+                cfg: MHTableConfig = MHTableConfig())
+    {
         //
         self.sections = sections
         
         //
         super.init(cfg: cfg)
+        
+        //
+        for i in self.sections {
+            //
+            i.mhTable = self
+        }
     }
     
     ///
@@ -171,9 +140,58 @@ open class MHTable: MHAbstractTable {
     }
     
     //
+    func sectionIndex(ofDriver: MHSectionDriver) -> Int {
+        //
+        guard let _idx = sections.firstIndex(of: ofDriver)
+            else { fatalError() }
+        
+        //
+        return _idx
+    }
+    
+    //
     func object(at: IndexPath) -> MHTableCell {
         //
         return sections[at.section].cellAt(row: at.row)
+    }
+    
+    //
+    func tableDynamics(from: MHSectionDriver, operation: MHTableDynamics) {
+        //
+        let _section = sectionIndex(ofDriver: from)
+        
+        //
+        func ip(_ i: Int) -> IndexPath {
+            //
+            return IndexPath(row: i, section: _section)
+        }
+        
+        //
+        switch operation {
+        case .beginUpdates:
+            //
+            tableView.beginUpdates()
+            
+        case .endUpdates:
+            //
+            tableView.endUpdates()
+            
+        case .insert(let _R):
+            //
+            tableView.insertRows(at: [ip(_R)], with: .fade)
+            
+        case let .move(_F, _T):
+            //
+            tableView.moveRow(at: ip(_F), to: ip(_T))
+            
+        case .delete(let _R):
+            //
+            tableView.deleteRows(at: [ip(_R)], with: .fade)
+            
+        case .update(let _R):
+            //
+            tableView.reloadRows(at: [ip(_R)], with: .fade)
+        }
     }
     
     //
@@ -203,7 +221,20 @@ open class MHTable: MHAbstractTable {
                                    cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         //
-        return object(at: indexPath)
+        let _sec = sections[indexPath.section]
+        
+        //
+        switch _sec.style {
+            //
+        case .staticCells:
+            //
+            return _sec.cellAt(row: indexPath.row)
+            
+            //
+        case .dynamicCellPrototype:
+            //
+            return _sec.dynamicAt(row: indexPath.row, table: tableView)
+        }
     }
     
     //
