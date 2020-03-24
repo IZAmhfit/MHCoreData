@@ -13,6 +13,9 @@ import UIKit
 ///
 public class MHTableCell : UITableViewCell {
     //
+    func selfConfig(with: Any) {
+        //
+    }
 }
 
 
