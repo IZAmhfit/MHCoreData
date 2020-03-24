@@ -171,7 +171,7 @@ open class MHTable: MHAbstractTable {
 //
 open class MHDetailTable: MHTable {
     //
-    open var definedSections: [MHSectionDriver]? { nil }
+    open var definedSections: [MHSectionDriver] { return [] }
     
     //
     open func detailStarted() {}
@@ -179,10 +179,7 @@ open class MHDetailTable: MHTable {
     //
     open override func viewDidLoad() {
         //
-        if let _sects = definedSections {
-            //
-            _sects.forEach { add(section: $0) }
-        }
+        definedSections.forEach { add(section: $0) }
         
         //
         super.viewDidLoad()
