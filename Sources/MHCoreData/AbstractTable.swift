@@ -75,14 +75,50 @@ public struct MHTableConfig {
 
 
 // --------------------------------------------------------------------
+//
+public enum MHVCDelegationReturn {
+    //
+    case ended
+    case cancel
+    case selected(Any?)
+}
+
+// --------------------------------------------------------------------
+//
+public protocol MHVCDelegation {
+    //
+    var vcDelegate: MHVCDelegation? { get }
+    
+    //
+    func vcDelegationMessage(from: MHVCDelegation,
+                             arg: MHVCDelegationReturn)
+}
+
+//
+public extension MHVCDelegation {
+    //
+    func vcDelegationSend(arg: MHVCDelegationReturn) {
+        //
+        if let _del = vcDelegate {
+            //
+            DispatchQueue.main.async {
+                //
+                _del.vcDelegationMessage(from: self, arg: arg)
+            }
+        }
+    }
+}
+
+// --------------------------------------------------------------------
 // Abstraktni funkcionalita nad VC typu tabulka
 // - ucel
 // - udalosti
 // - ovladaci prvky (tlacitka)
-open class MHAbstractTable : UITableViewController {
+open class MHAbstractTable : UITableViewController, MHVCDelegation {
     // ----------------------------------------------------------------
     // Externe zadana konfigurace tabulky
     public var config: MHTableConfig
+    public var vcDelegate: MHVCDelegation?
     
     // ----------------------------------------------------------------
     //
@@ -161,6 +197,14 @@ open class MHAbstractTable : UITableViewController {
     open func eventEnding() {
         //
         buttonOKAction()
+    }
+    
+    // ----------------------------------------------------------------
+    //
+    open func vcDelegationMessage(from: MHVCDelegation,
+                                  arg: MHVCDelegationReturn)
+    {
+        //
     }
 }
 
