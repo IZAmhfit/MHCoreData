@@ -60,6 +60,27 @@ public class MHBinding<Value> {
 }
 
 // --------------------------------------------------------------------
+//
+public struct MHConnector<Value> {
+    //
+    let root: NSObject
+    let key: String
+    
+    //
+    var value: Value {
+        //
+        get { root.value(forKey: key) as! Value }
+        set { root.setValue(newValue, forKey: key) }
+    }
+    
+    //
+    public init(root: NSObject, key: String) {
+        //
+        self.root = root; self.key = key
+    }
+}
+
+// --------------------------------------------------------------------
 // spojovnik mezi propertyWrapper a Binding
 public class MHWrapper<Value> {
     // seznam binding
