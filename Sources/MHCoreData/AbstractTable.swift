@@ -22,6 +22,7 @@ public enum MHTablePurpose {
     //
     case listOfElements
     case detailOnObject
+    case transaction
 }
 
 // --------------------------------------------------------------------
@@ -60,7 +61,7 @@ public struct MHTableConfig {
 open class MHAbstractTable : UITableViewController {
     // ----------------------------------------------------------------
     // Externe zadana konfigurace tabulky
-    let config: MHTableConfig
+    public var config: MHTableConfig
     
     // ----------------------------------------------------------------
     //

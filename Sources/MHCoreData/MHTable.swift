@@ -166,3 +166,28 @@ open class MHTable: MHAbstractTable {
         super.event(indexPathSelected: indexPathSelected)
     }
 }
+
+
+//
+open class MHDetailTable: MHTable {
+    //
+    open var definedSections: [MHSectionDriver]?
+    
+    //
+    open func detailStarted() {}
+    
+    //
+    open override func viewDidLoad() {
+        //
+        if let _sects = definedSections {
+            //
+            _sects.forEach { add(section: $0) }
+        }
+        
+        //
+        super.viewDidLoad()
+        
+        //
+        detailStarted()
+    }
+}
