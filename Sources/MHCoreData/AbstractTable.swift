@@ -214,7 +214,7 @@ open class MHAbstractTable : UITableViewController, MHVCDelegation {
         //
         if let _msg = _vcMessageForDelegate {
             //
-            vcDelegationMessage(from: self, arg: _msg)
+            vcDelegationSend(arg: _msg)
         }
     }
     
