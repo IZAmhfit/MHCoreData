@@ -21,12 +21,12 @@ public typealias MHOnObjectCellAction = (UIViewController, IndexPath, MHTableCel
 ///
 public struct MHTableConfig {
     // groupped/plain
-    var style: UITableView.Style = .plain
+    public var style: UITableView.Style = .plain
     
     // akce na ruzne situace
-    var addButton: MHAction? = nil
-    var selectionIndexPath: MHOnCellAction? = nil
-    var selectionObjectIndexPath: MHOnObjectCellAction? = nil
+    public var addButton: MHAction? = nil
+    public var selectionIndexPath: MHOnCellAction? = nil
+    public var selectionObjectIndexPath: MHOnObjectCellAction? = nil
     
     //
     public init() {
