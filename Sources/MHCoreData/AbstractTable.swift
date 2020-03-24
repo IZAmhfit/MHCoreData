@@ -91,20 +91,20 @@ open class MHAbstractTable : UITableViewController {
     // ----------------------------------------------------------------
     // interni funkce pro zachyceni akce od BarButtonItem
     // (musi byt @objc)
-    @objc public func buttonAddAction() {
+    @objc open func buttonAddAction() {
         //
         config.addButton?(self)
     }
     
     // ----------------------------------------------------------------
     //
-    @objc public func buttonOKAction() {
+    @objc open func buttonOKAction() {
         //
     }
     
     // ----------------------------------------------------------------
     //
-    @objc public func buttonCancelAction() {
+    @objc open func buttonCancelAction() {
         //
     }
     
