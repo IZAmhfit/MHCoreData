@@ -171,7 +171,7 @@ open class MHTable: MHAbstractTable {
 //
 open class MHDetailTable: MHTable {
     //
-    open var definedSections: [MHSectionDriver]?
+    open var definedSections: [MHSectionDriver]? { nil }
     
     //
     open func detailStarted() {}
