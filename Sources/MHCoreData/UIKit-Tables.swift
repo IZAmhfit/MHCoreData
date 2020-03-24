@@ -49,7 +49,7 @@ public struct MHTableConfig {
 ///
 ///
 ///
-public class MHAbstractTable : UITableViewController {
+open class MHAbstractTable : UITableViewController {
     ///
     let config: MHTableConfig
     
@@ -60,7 +60,7 @@ public class MHAbstractTable : UITableViewController {
     }
     
     //
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         //
         fatalError("init(coder:) has not been implemented")
     }
@@ -151,7 +151,7 @@ public class MHSectionDriver {
 ///
 ///
 ///
-public class MHTable: MHAbstractTable {
+open class MHTable: MHAbstractTable {
     //
     let sections: [MHSectionDriver]
     
@@ -165,7 +165,7 @@ public class MHTable: MHAbstractTable {
     }
     
     ///
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         //
         fatalError("init(coder:) has not been implemented")
     }
