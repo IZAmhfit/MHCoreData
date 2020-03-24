@@ -13,6 +13,16 @@ import UIKit
 ///
 open class MHTableCell : UITableViewCell {
     //
+    public init() {
+        //
+        super.init(style: .default, reuseIdentifier: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //
     open func selfConfig(with: Any) {
         //
     }
@@ -49,7 +59,7 @@ public class MHRow<RightSide:UIView>: MHTableCell {
     //
     public init(_ leftText: String, right: RightSide?) {
         //
-        super.init(style: .default, reuseIdentifier: nil)
+        super.init()
         
         //
         let hstack = baseStack()
