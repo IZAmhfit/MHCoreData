@@ -106,7 +106,7 @@ enum MHTableDynamics {
 ///
 open class MHTable: MHAbstractTable {
     //
-    let sections: [MHSectionDriver]
+    var sections: [MHSectionDriver]
     
     ///
     public init(sections: [MHSectionDriver],
@@ -123,6 +123,15 @@ open class MHTable: MHAbstractTable {
             //
             i.mhTable = self
         }
+    }
+    
+    //
+    public func add(section: MHSectionDriver) {
+        //
+        section.mhTable = self
+        
+        //
+        sections.append(section)
     }
     
     ///
