@@ -13,6 +13,14 @@ import UIKit
 ///
 open class MHTableCell : UITableViewCell {
     //
+    public override init(style: UITableViewCell.CellStyle,
+                         reuseIdentifier: String?)
+    {
+        //
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    }
+    
+    //
     public init() {
         //
         super.init(style: .default, reuseIdentifier: nil)
