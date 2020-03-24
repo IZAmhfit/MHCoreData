@@ -21,26 +21,18 @@ public typealias MHOnObjectCellAction = (UIViewController, IndexPath, MHTableCel
 ///
 public struct MHTableConfig {
     // groupped/plain
-    let style: UITableView.Style = .plain
+    var style: UITableView.Style = .plain
     
     // akce na ruzne situace
-    let addButton: MHAction?
-    let selectionIndexPath: MHOnCellAction?
-    let selectionObjectIndexPath: MHOnObjectCellAction?
+    var addButton: MHAction? = nil
+    var selectionIndexPath: MHOnCellAction? = nil
+    var selectionObjectIndexPath: MHOnObjectCellAction? = nil
     
     //
     public init() {
         //
         addButton = nil
         selectionIndexPath = nil
-        selectionObjectIndexPath = nil
-    }
-    
-    //
-    public init(onIndexPath: @escaping MHOnCellAction) {
-        //
-        addButton = nil;
-        selectionIndexPath = onIndexPath
         selectionObjectIndexPath = nil
     }
 }
@@ -249,42 +241,3 @@ open class MHTable: MHAbstractTable {
         super.event(indexPathSelected: indexPathSelected)
     }
 }
-
-///
-public extension MHTable {
-    //
-    static func rdetail<Root>(on: Root, keys: [KeyPath<Root, String>]) -> MHTable
-    {
-        //
-        let dr = keys.map { k in
-            MHRow.Text("cosi", on[keyPath: k])
-        }
-        
-        //
-        return MHTable(sections: [MHSectionDriver(staticCells: dr)])
-    }
-    
-    //
-    static func table(on: [String]) -> MHTable {
-        //
-        let cfg = MHTableConfig { vc, idx in //
-            //
-            let sect = MHSectionDriver.on(["1","2","3"], header: "Cisla")
-            let secta = MHSectionDriver.on(["a","b","c"], header: "Pismena")
-            
-            //
-            let p = MHTable(sections: [sect, secta])
-            
-            //
-            vc.navigationController?.pushViewController(p, animated: true)
-        }
-        
-        //
-        let cells = on.map { MHRow.Text($0) }
-        let sect = MHSectionDriver(staticCells: cells)
-        
-        //
-        return MHTable(sections: [sect], cfg: cfg)
-    }
-}
-

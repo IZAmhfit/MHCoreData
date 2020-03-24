@@ -56,32 +56,3 @@ public class MHFRC<Entity:MHFetchable> {
     ///
     func fire() -> Bool { mhFire(frc: __FRC) }
 }
-
-
-/// Popis zpracovani pro jednu tabulku
-public struct MHTableDEF<Type> {
-    // pro nejake ucely (...) si drzim slabou ref na tabulku
-    // TODO: mozna nebude potreba
-    weak var table: UITableView?
-    
-    // predpokladam homogenni tabulku s jednim rid
-    let reuseId: String
-    var tableIsDynamic: Bool { table != nil }
-    
-    // zprava pro cil, zkonfigurujj si bunku
-    public typealias CellConfigDelegate = (UITableViewCell, Type)->()
-    public typealias CellSelectionDelegate = (Type)->()
-    
-    // ...
-    let cellConfig: CellConfigDelegate
-    let cellSelect: CellSelectionDelegate?
-    
-    
-    //
-    public init(reuse: String, cellConfig: @escaping CellConfigDelegate) {
-        //
-        self.reuseId = reuse
-        self.cellConfig = cellConfig
-        self.cellSelect = nil
-    }
-}
