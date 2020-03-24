@@ -11,9 +11,9 @@ import UIKit
 ///
 /// Kdokoli, kdo odpovi na "cell", je pouzitelny.
 ///
-public class MHTableCell : UITableViewCell {
+open class MHTableCell : UITableViewCell {
     //
-    func selfConfig(with: Any) {
+    public func selfConfig(with: Any) {
         //
     }
 }
