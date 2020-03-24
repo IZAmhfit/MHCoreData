@@ -120,6 +120,9 @@ open class MHAbstractTable : UITableViewController, MHVCDelegation {
     public var config: MHTableConfig
     public var vcDelegate: MHVCDelegation?
     
+    //
+    public var _vcMessageForDelegate: MHVCDelegationReturn?
+    
     // ----------------------------------------------------------------
     //
     init(cfg: MHTableConfig) {
@@ -181,6 +184,16 @@ open class MHAbstractTable : UITableViewController, MHVCDelegation {
     
     // ----------------------------------------------------------------
     //
+    open func quitMe(responseToDelegate: MHVCDelegationReturn?) {
+        //
+        _vcMessageForDelegate = responseToDelegate
+        
+        //
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // ----------------------------------------------------------------
+    //
     override open func didMove(toParent parent: UIViewController?) {
         //
         super.didMove(toParent: parent)
@@ -194,9 +207,15 @@ open class MHAbstractTable : UITableViewController, MHVCDelegation {
     
     // ----------------------------------------------------------------
     //
-    open func eventEnding() {
+    func eventEnding() {
         //
         buttonOKAction()
+        
+        //
+        if let _msg = _vcMessageForDelegate {
+            //
+            vcDelegationMessage(from: self, arg: _msg)
+        }
     }
     
     // ----------------------------------------------------------------
