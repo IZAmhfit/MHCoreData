@@ -154,16 +154,38 @@ open class MHTable: MHAbstractTable {
         }
     }
     
+    // ----------------------------------------------------------------
     //
-    override open func event(indexPathSelected: IndexPath) {
+    open func event(selected: MHSectionDriver, row: Int) {
         //
-        if let _act = config.selectionObjectIndexPath {
-            //
-            _act(self, indexPathSelected, object(at: indexPathSelected))
-        }
+    }
+    
+    // ----------------------------------------------------------------
+    //
+    open func event(selectedObject: Any?, section:MHSectionDriver, row: Int) {
+        //
+    }
+    
+    // ----------------------------------------------------------------
+    //
+    override public func tableView(_ tableView: UITableView,
+                                   didSelectRowAt indexPath: IndexPath)
+    {
+        //
+        let _sec = sections[indexPath.section]
         
         //
-        super.event(indexPathSelected: indexPathSelected)
+        switch _sec.style {
+            //
+        case .staticCells:
+            //
+            event(selected: _sec, row: indexPath.row)
+            //
+        case .dynamicCellPrototype:
+            //
+            event(selectedObject: _sec.objectAt(row: indexPath.row),
+                  section: _sec, row: indexPath.row)
+        }
     }
 }
 

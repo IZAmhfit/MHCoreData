@@ -55,6 +55,12 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
         //
         return _cell
     }
+    
+    //
+    override func objectAt(row: Int) -> Any? {
+        //
+        return FRC.object(at: IndexPath(row: row, section: 0))
+    }
 
     ///
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)

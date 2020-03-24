@@ -80,6 +80,12 @@ public class MHSectionDriver : NSObject {
     }
     
     //
+    func objectAt(row: Int) -> Any? {
+        //
+        return nil
+    }
+    
+    //
     func dynamicAt(row: Int, table: UITableView) -> MHTableCell {
         //
         fatalError("Not implemented")

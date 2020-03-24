@@ -124,7 +124,7 @@ open class MHAbstractTable : UITableViewController {
     
     // ----------------------------------------------------------------
     //
-    open override func didMove(toParent parent: UIViewController?) {
+    override open func didMove(toParent parent: UIViewController?) {
         //
         super.didMove(toParent: parent)
         
@@ -139,29 +139,7 @@ open class MHAbstractTable : UITableViewController {
     //
     open func eventEnding() {
         //
-        if config.purpose == .detailOnObject {
-            //
-            buttonOKAction()
-        }
-    }
-    
-    // ----------------------------------------------------------------
-    //
-    open func event(indexPathSelected: IndexPath) {
-        //
-        if let _act = config.selectionIndexPath {
-            //
-            _act(self, indexPathSelected)
-        }
-    }
-    
-    // ----------------------------------------------------------------
-    //
-    override public func tableView(_ tableView: UITableView,
-                                   didSelectRowAt indexPath: IndexPath)
-    {
-        //
-        event(indexPathSelected: indexPath)
+        buttonOKAction()
     }
 }
 
