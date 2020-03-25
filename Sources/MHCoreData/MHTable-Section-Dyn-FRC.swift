@@ -9,76 +9,91 @@ import Foundation
 import UIKit
 import CoreData
 
-///
-/// Tabulkovy DS
-public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetchedResultsControllerDelegate {
-    ///
+// --------------------------------------------------------------------
+// Tabulkovy SectionDriver, dynamicky
+// --------------------------------------------------------------------
+// 1) sablonovity - potrebuju Entitu z CoreData
+// 2) odvozuje od SectionDriver
+// 3) stava se FRC-delegatem
+public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetchedResultsControllerDelegate
+{
+    // ----------------------------------------------------------------
+    // wrapper nad FRC
     let FRC: MHFRC<Entity>
     
-    ///
+    // ----------------------------------------------------------------
+    // ...
     public init?(_ mhFRC: MHFRC<Entity>, cellPrototype: String,
                  header: String? = nil)
     {
-        //
-        FRC = mhFRC
-        
-        //
+        // ...
+        self.FRC = mhFRC
         super.init(cellPrototype: cellPrototype, header: header)
         
-        //
+        // stavam se delegatem FRCu
         FRC.delegate = self
         
-        //
-        guard mhFRC.fire() else {
+        // provadim fetch
+        if mhFRC.fire() == false {
             //
             return nil
         }
     }
     
-    //
-    override var count: Int {
-        //
-        return FRC.count
-    }
+    // ----------------------------------------------------------------
+    // obvious...
+    override var count: Int { return FRC.count }
     
-    //
+    // ----------------------------------------------------------------
+    // UITableViewDataSource::cellForRow(at:)...
     override func dynamicAt(row: Int, table: UITableView) -> MHTableCell {
-        //
-        guard let _cell = mhTable?.tableView.dequeueReusableCell(withIdentifier: cellPrototype!) as? MHTableCell else { fatalError() }
+        // pokud nedostanu bunku, tak lehnu (co jineho...)
+        guard let _cell = mhTable?.tableView.dequeueReusableCell(withIdentifier: cellPrototype!) as? MHTableCell
+            else { fatalError("FRC: Dynamicky section driver nedostal cell") }
         
-        //
+        // ... mapuju do sveho prosturu IP
         let _ip = IndexPath(row: row, section: 0)
         
-        //
+        // bunka necht se sebe-zkonfiguruje...
         _cell.selfConfig(with: FRC.object(at: _ip))
         
         //
         return _cell
     }
     
+    // ----------------------------------------------------------------
     //
     override func objectAt(row: Int) -> Any? {
         //
         return FRC.object(at: IndexPath(row: row, section: 0))
     }
 
-    ///
+    // ----------------------------------------------------------------
+    // FRC, delegate metody, predavam do MHTable
     public func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
     {
         //
         mhTable?.tableDynamics(from: self, operation: .endUpdates)
     }
     
-    ///
+    // ----------------------------------------------------------------
+    //
     public func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
     {
         //
         mhTable?.tableDynamics(from: self, operation: .beginUpdates)
     }
     
-    ///
+    // ----------------------------------------------------------------
+    // TODO: prekontrolovat vyznamy indexPath, newIndexPath apod...
     public func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?)
     {
+        //
+        guard let _mhTable = mhTable else {
+            //
+            return
+        }
+        
         //
         switch type {
             //
@@ -86,7 +101,7 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
             //
             if let nip = newIndexPath {
                 //
-                mhTable?.tableDynamics(from: self,
+                _mhTable.tableDynamics(from: self,
                                        operation: .insert(nip.row))
             }
             
@@ -95,7 +110,7 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
             //
             if let ip = indexPath {
                 //
-                mhTable?.tableDynamics(from: self,
+                _mhTable.tableDynamics(from: self,
                                        operation: .update(ip.row))
             }
             
@@ -103,7 +118,7 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
             //
             if let oip = indexPath, let nip = newIndexPath {
                 //
-                mhTable?.tableDynamics(from: self,
+                _mhTable.tableDynamics(from: self,
                                        operation: .move(oip.row, nip.row))
             }
             
@@ -111,7 +126,7 @@ public class MHFRCSectionDriver<Entity:MHFetchable> : MHSectionDriver, NSFetched
             //
             if let ip = indexPath {
                 //
-                mhTable?.tableDynamics(from: self,
+                _mhTable.tableDynamics(from: self,
                                        operation: .delete(ip.row))
             }
         //

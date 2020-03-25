@@ -8,14 +8,18 @@
 import Foundation
 import UIKit
 
-///
-///
-///
+// --------------------------------------------------------------------
+// System komponent pro MHTableCell napojitelnych na model (binding)
+// --------------------------------------------------------------------
+// Lze pouzit bud volne nebo napojene
+
+// --------------------------------------------------------------------
+// UILabel,
 public class MHLabel: UILabel {
-    //
+    // napojeni na model, string
     private var _modelBinding: MHBinding<String>?
     
-    //
+    // volne pouziti
     public init(text: String) {
         //
         super.init(frame: CGRect())
@@ -24,7 +28,7 @@ public class MHLabel: UILabel {
         self.text = text
     }
     
-    //
+    // pouzi s binding,,,,
     public init(bind: MHBinding<String>) {
         //
         self._modelBinding = bind
@@ -32,10 +36,11 @@ public class MHLabel: UILabel {
         //
         super.init(frame: CGRect())
         
-        //
+        // pocatecni hodnota
         text = _modelBinding!.value
         
-        //
+        // kdyz se model modifikuje, pres binding dostanu zpravu
+        // toto je akce na obsluhu te zpravy
         _modelBinding!.delegate = { str in self.text = str }
     }
     
@@ -47,16 +52,15 @@ public class MHLabel: UILabel {
 }
 
 
-///
-///
-///
+// --------------------------------------------------------------------
+//
 public class MHTextField: UITextField {
     //
     private var _modelBinding: MHBinding<String>?
     
-    //
+    // udalost od UITextField
     @objc func __valueEvent() {
-        //
+        // preposilam pres binding do modelu
         _modelBinding?.value = text ?? ""
     }
     
@@ -68,7 +72,7 @@ public class MHTextField: UITextField {
         //
         super.init(frame: CGRect())
         
-        //
+        // registruju akci na udalost
         addTarget(self, action: #selector(__valueEvent), for: .editingChanged)
         
         //
@@ -85,9 +89,8 @@ public class MHTextField: UITextField {
     }
 }
 
-/// --------------------------------------------------------------------
-///
-///
+// --------------------------------------------------------------------
+//
 public class MHSwitch: UISwitch {
     //
     private var _modelBinding: MHBinding<Bool>?
@@ -110,16 +113,10 @@ public class MHSwitch: UISwitch {
         addTarget(self, action: #selector(__valueEvent), for: .valueChanged)
         
         //
-        if let _mb = _modelBinding {
-            //
-            _mb.delegate = {
-                //
-                self.setOn($0, animated: true)
-            }
-            
-            //
-            setOn(_mb.value, animated: false)
-        }
+        _modelBinding!.delegate = { self.setOn($0, animated: true) }
+        
+        //
+        setOn(_modelBinding!.value, animated: false)
     }
     
     //
