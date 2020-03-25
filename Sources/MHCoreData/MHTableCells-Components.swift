@@ -78,6 +78,11 @@ public class MHTextField: UITextField {
         //
         text = _modelBinding!.value
         textAlignment = .right
+        
+        // velke zlo!
+        autocorrectionType = .no
+        
+        // 
         widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         
         //
