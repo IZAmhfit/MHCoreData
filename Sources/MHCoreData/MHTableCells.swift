@@ -17,6 +17,9 @@ open class MHTableCell : UITableViewCell {
     open func selfConfig(with: Any) {
         //
     }
+    
+    //
+    open var cellRowHeight: CGFloat { 44 }
 }
 
 // --------------------------------------------------------------------

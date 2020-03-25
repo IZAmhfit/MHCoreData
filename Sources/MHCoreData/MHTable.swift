@@ -179,27 +179,39 @@ open class MHTable: MHAbstractTable {
     }
     
     // ----------------------------------------------------------------
+    //
+    open override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        //
+        return 100
+    }
+    
+    // ----------------------------------------------------------------
     // DataSource, dotaz predavam na driver s rozlisenim
     override public func tableView(_ tableView: UITableView,
                                    cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         //
         let _sec = sections[indexPath.section]
+        var _cell: MHTableCell?
         
         //
         switch _sec.style {
             // statik...vrati mi svoji interne ulozenou bunku
         case .staticCells:
             //
-            return _sec.cellAt(row: indexPath.row)
+            _cell = _sec.cellAt(row: indexPath.row)
             
             // dynamic, predpokladam instanciaci dequeue na pozadani
             // -- musi byt jasny cellPrototype
             // -- tabulka musi mit predem cellPrototype registrovany
         case .dynamicCellPrototype:
             //
-            return _sec.dynamicAt(row: indexPath.row, table: tableView)
+            _cell = _sec.dynamicAt(row: indexPath.row, table: tableView)
         }
+        
+        //
+        return _cell!
     }
     
     // ----------------------------------------------------------------
