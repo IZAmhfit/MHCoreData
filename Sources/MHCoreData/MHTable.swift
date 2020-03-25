@@ -170,14 +170,16 @@ open class MHTable: MHAbstractTable {
     // ----------------------------------------------------------------
     // generuju udalost na stisk bunky statickeho driveru
     // (predpokladam on si to prebere podle sveho interniho modelu)
-    open func event(selected: MHSectionDriver, row: Int) {
+    open func event(selected: MHSectionDriver, ip: IndexPath) {
         //
     }
     
     // ----------------------------------------------------------------
     // ... dynamickeho driveru, kdy se hodi i informace o datovem
     // objektu na pozici
-    open func event(selectedObject: Any?, section:MHSectionDriver, row: Int) {
+    open func event(selectedObject: Any?, section:MHSectionDriver,
+                    ip: IndexPath)
+    {
         //
     }
     
@@ -194,12 +196,12 @@ open class MHTable: MHAbstractTable {
             //
         case .staticCells:
             //
-            event(selected: _sec, row: indexPath.row)
+            event(selected: _sec, ip: indexPath)
             //
         case .dynamicCellPrototype:
             //
             event(selectedObject: _sec.objectAt(row: indexPath.row),
-                  section: _sec, row: indexPath.row)
+                  section: _sec, ip: indexPath)
         }
     }
 }
