@@ -18,6 +18,12 @@ public extension UIViewController {
         //
         UINavigationController(rootViewController: self)
     }
+    
+    //
+    var isVisible: Bool {
+        //
+        return isViewLoaded && (view.window != nil)
+    }
 }
 
 ///

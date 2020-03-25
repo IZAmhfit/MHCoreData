@@ -27,6 +27,9 @@ open class MHTable: MHAbstractTable {
     // seznam section drivers
     var sections: [MHSectionDriver]
     
+    //
+    private var __tableNeedsReload = false
+    
     // ----------------------------------------------------------------
     //
     public init(sections: [MHSectionDriver],
@@ -81,8 +84,40 @@ open class MHTable: MHAbstractTable {
     }
     
     // ----------------------------------------------------------------
+    // vc se objevil na obrazovce
+    open override func viewDidAppear(_ animated: Bool) {
+        //
+        super.viewDidAppear(animated)
+        
+        //
+        if __tableNeedsReload {
+            //
+            __tableNeedsReload = false
+            
+            //
+            tableView.reloadData()
+        }
+    }
+    
+    // ----------------------------------------------------------------
     // driver komanduje moji tabulku, ok...
     func tableDynamics(from: MHSectionDriver, operation: MHTableDynamics) {
+        // ------------------------------------------------------------
+        // pokud nejsem viditelny a FRC me vola, pak nema smysl
+        // prekreslovat tabulku, anzto neni zapojena v hierarchii
+        // views...
+        // prekresleni odkladam
+        guard isVisible else {
+            //
+            print("FRC me vola, ale ja nejsem VISIBLE");
+            
+            // znamenam si...
+            __tableNeedsReload = true
+            
+            //
+            return
+        }
+        
         // sekce tohodle driveru
         let _section = sectionIndex(ofDriver: from)
         
