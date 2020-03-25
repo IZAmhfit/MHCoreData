@@ -11,7 +11,7 @@ import UIKit
 //
 public extension UIView {
     //
-    func baseStack(_ pin: CGFloat = 20) -> UIStackView {
+    func baseStack(_ pinX: CGFloat = 20, _ pinY: CGFloat = 5) -> UIStackView {
         //
         let hstack = UIStackView()
         
@@ -24,13 +24,13 @@ public extension UIView {
         
         //
         hstack.leftAnchor.constraint(equalTo: leftAnchor,
-                                     constant: pin).isActive = true
+                                     constant: pinX).isActive = true
         hstack.rightAnchor.constraint(equalTo: rightAnchor,
-                                      constant: -pin).isActive = true
+                                      constant: -pinX).isActive = true
         hstack.topAnchor.constraint(equalTo: topAnchor,
-                                    constant: pin).isActive = true
+                                    constant: pinY).isActive = true
         hstack.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                       constant: -pin).isActive = true
+                                       constant: -pinY).isActive = true
         
         //
         return hstack
