@@ -56,6 +56,11 @@ public struct MHTableConfig {
     public var selectionIndexPath: MHOnCellAction? = nil
     public var selectionObjectIndexPath: MHOnObjectCellAction? = nil
     
+    // ----------------------------------------------------------------
+    //
+    public var cellHeight: [String:CGFloat] = [:]
+    static let cellHeightDefault: CGFloat = 44
+    
     //
     public init() {
         //

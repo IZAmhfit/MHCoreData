@@ -180,10 +180,23 @@ open class MHTable: MHAbstractTable {
     
     // ----------------------------------------------------------------
     //
-    open override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    open override func tableView(_ tableView: UITableView,
+                                 heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         //
-        return 100
+        let _sec = sections[indexPath.section]
+        
+        //
+        if let _proto = _sec.cellPrototype {
+            //
+            if let _found = config.cellHeight[_proto] {
+                //
+                return _found
+            }
+        }
+        
+        //
+        return MHTableConfig.cellHeightDefault
     }
     
     // ----------------------------------------------------------------
