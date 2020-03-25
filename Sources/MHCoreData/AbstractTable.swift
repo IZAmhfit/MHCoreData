@@ -187,6 +187,7 @@ open class MHAbstractTable : UITableViewController, MHVCDelegation {
     // tlacitko .cancel
     @objc open func buttonCancelAction() {
         //
+        quitMe(responseToDelegate: .cancel)
     }
     
     // ----------------------------------------------------------------
