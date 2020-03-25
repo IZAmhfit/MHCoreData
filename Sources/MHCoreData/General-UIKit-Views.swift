@@ -11,7 +11,7 @@ import UIKit
 //
 public extension UIView {
     //
-    func baseStack(_ pin: CGFloat = 5) -> UIStackView {
+    func baseStack(_ pin: CGFloat = 20) -> UIStackView {
         //
         let hstack = UIStackView()
         
