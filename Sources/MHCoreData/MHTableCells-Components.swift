@@ -77,6 +77,8 @@ public class MHTextField: UITextField {
         
         //
         text = _modelBinding!.value
+        textAlignment = .right
+        widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
         
         //
         _modelBinding?.delegate = { str in self.text = str }
